@@ -1,7 +1,17 @@
 
+/** Los operandos peuden ser EsValor o EsSaltoEtiqueta, y tienen
+ * un boolean asignado para saber de que tipo son. (Podría
+ * tener solo 1, que sería mas seguro, y modificar losg etters y loss etters jugando con el not.
+ * pero soy gilipollas.
+ * 
+ * Si es un EsValor, guardará un valor int y una constante que indicará su direccionameinto
+ *  O->(=)Const; 1->( )Dir Directo; 2->(*)Dir Indirecto.
+ * En otro caso guardarña un String que contendrá el nombre del salto de etiqueta.
+ * @author Yahlunna
+ */
 public class Operando {
 
-	public int direccionamiento;						// O->(=)Const; 1->( )Dir Directo; 2->(*)Dir Indirecto.
+	public int direccionamiento;						
 	public int valor;
 	
 	public String saltoEtiqueta;
@@ -9,7 +19,7 @@ public class Operando {
 	public boolean esValor;
 	public boolean esSaltoEtiqueta;
 	
-	/////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public Operando() {
 		setDireccionamiento(-1);
@@ -18,14 +28,14 @@ public class Operando {
 		setEsValor(false);
 		setEsSaltoEtiqueta(false);
 	}
-	public Operando(int direccionamiento, int valor) {
+	public Operando(int direccionamiento, int valor) {	//Constructor para un valor
 		setDireccionamiento(direccionamiento);
 		setValor(valor);
 		setSaltoEtiqueta(null);
 		setEsValor(true);
 		setEsSaltoEtiqueta(false);
 	}
-	public Operando(String saltoEtiqueta) {
+	public Operando(String saltoEtiqueta) {				//Constructor para un saltoetiqueta
 		setDireccionamiento(-1);
 		setValor(-1);
 		setSaltoEtiqueta(saltoEtiqueta);
@@ -33,7 +43,7 @@ public class Operando {
 		setEsSaltoEtiqueta(true);
 	}
 	
-	/////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public int getDireccionamiento() {
 		return direccionamiento;
@@ -68,6 +78,7 @@ public class Operando {
 		this.esValor = !esSaltoEtiqueta;
 	}
 
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public String toString() {
 	    if(isEsValor()) {

@@ -1,16 +1,30 @@
 //test
+/**
+ * @author Yahlunna
+ * La clase Alu va leyendo las instrucciones de la Memoria del programa, 
+ * y ejectuando sus instucciones leyendo o escribiendo en la cinta de 
+ * entrada y salida, o modificando los valores de los registros
+ *  cuando sea necesario. 
+ */
 public class Alu{
 
-	public ProgramMemory programMemory;
-	public DataMemory dataMemory;
-	public ListaInstrucciones listaInstrucciones;
-	public InputUnit inputUnit;
-	public OutputUnit outputUnit;
-	public int IDPointer;
-	public boolean debugMode;
-	public int numberOfInstructions;
-	public boolean stop;
+	public ProgramMemory programMemory;					//Programa cargado en memoria
+	public DataMemory dataMemory;						//Memoria (registros)
+	public ListaInstrucciones listaInstrucciones;		//Instrucciones que entiende el ALU
+	public InputUnit inputUnit;							//CInta de entrada
+	public OutputUnit outputUnit;						//Cinta de salida
+	public int IDPointer;								//Puntero del alu que indica la siguiente instrucción a ejecutar
+	public boolean debugMode;							//Si es true, se muestran paso a paso el valor de los registros.
+	public int numberOfInstructions;					//Numero de instrucciones ejecutadas hasta el momento
+	public boolean stop;								//Cuando sea true, se parará la ejecución del programa.
 	
+	/**Constructor de la Unidad Aritmetico Logica
+	 * @param programaTxt
+	 * @param ficheroEntradaTxt
+	 * @param ficheroSalidaTxt
+	 * @param esDebugMode
+	 * @throws Exception
+	 */
 	public Alu(String programaTxt, String ficheroEntradaTxt, String ficheroSalidaTxt, boolean esDebugMode) throws Exception{
 		setProgramMemory(new ProgramMemory(programaTxt));
 		setDataMemory(new DataMemory());
@@ -21,6 +35,8 @@ public class Alu{
 		setDebugMode(esDebugMode);
 		setStop(false);
 	}
+	
+	// GETTERS Y SETTERS:
 	
 	public ProgramMemory getProgramMemory() {
 		return programMemory;
@@ -77,6 +93,11 @@ public class Alu{
 		this.stop = stop;
 	}
 	
+	
+	/**Ejecuta instruccion por instrucción el programa cargado en memoria hasta que se encuentra un halt
+	 * o una isntrucción nula (que trata como un halt).
+	 * @throws Exception
+	 */
 	public void runProgram() throws Exception{		
 		
 		if(isDebugMode()) getProgramMemory().showProgram();
@@ -92,6 +113,10 @@ public class Alu{
 		System.out.println("[Resultado final]: Se han ejecutado un total de " + Integer.toString(getNumberOfInstructions()) + " instrucciones.");
 	}
 	
+	/** Detecta la siguiente instrucción a ejecutar y llama a la función necesaria
+	 *  para ejecutarla.
+	 * @throws Exception
+	 */
 	public void executeInstruction() throws Exception{
 		
 		Instruccion instruccionActual= getProgramMemory().getInstruccion(getIDPointer());
@@ -142,7 +167,9 @@ public class Alu{
 		}
 	}
 	
-	// O->(=)Const; 1->( )Dir Directo; 2->(*)Dir Indirecto.
+	/** Carga el operando que se le pasa por parámetro en el acumulador
+	 * @param Direccionamiento= O->(=)Const; 1->( )Dir Directo; 2->(*)Dir Indirecto.
+	 */
 	public void load(Instruccion instruccion) throws Exception {
 		switch(instruccion.getOperandos().get(0).getDireccionamiento()) {
 		case 0:
@@ -159,6 +186,9 @@ public class Alu{
 		}
 	}
 	
+	/** Guarda en R(operando) el valor del acumulador.
+	 * @param instruccion
+	 */
 	public void store(Instruccion instruccion) throws Exception{
 		int acumuladorAuxiliar= getDataMemory().getValorAcumulador();
 		
@@ -176,6 +206,9 @@ public class Alu{
 		}
 	}
 	
+	/** Suma todos sus operandos al acumulador.
+	 * @param instruccion
+	 */
 	public void add(Instruccion instruccion) throws Exception{
 		int acumuladorAuxiliar= getDataMemory().getValorAcumulador();
 		for(Operando operando : instruccion.getOperandos()) {
@@ -196,7 +229,9 @@ public class Alu{
 		getDataMemory().setValorAcumulador(acumuladorAuxiliar);
 		//if(isDebugMode()) System.out.println("R0ACC ahora vale " + getDataMemory().getValorAcumulador());
 	}
-	
+	/** Resta todos sus operandos al acumulador.
+	 * @param instruccion
+	 */
 	public void sub(Instruccion instruccion) throws Exception{
 		int acumuladorAuxiliar= getDataMemory().getValorAcumulador();
 		for(Operando operando : instruccion.getOperandos()) {
@@ -217,7 +252,9 @@ public class Alu{
 		getDataMemory().setValorAcumulador(acumuladorAuxiliar);
 		//if(isDebugMode()) System.out.println("R0ACC ahora vale " + getDataMemory().getValorAcumulador());
 	}
-	
+	/** Multiplica todos sus operandos al acumulador.
+	 * @param instruccion
+	 */
 	public void mul(Instruccion instruccion) throws Exception{
 		int acumuladorAuxiliar= getDataMemory().getValorAcumulador();
 		for(Operando operando : instruccion.getOperandos()) {
@@ -238,7 +275,9 @@ public class Alu{
 		getDataMemory().setValorAcumulador(acumuladorAuxiliar);
 		if(isDebugMode()) System.out.println("R0ACC ahora vale " + getDataMemory().getValorAcumulador());
 	}
-	
+	/** Divide todos sus operandos al acumulador.
+	 * @param instruccion
+	 */
 	public void div(Instruccion instruccion) throws Exception{
 		int acumuladorAuxiliar= getDataMemory().getValorAcumulador();
 		for(Operando operando : instruccion.getOperandos()) {
@@ -260,6 +299,9 @@ public class Alu{
 		//if(isDebugMode()) System.out.println("R0ACC ahora vale " + getDataMemory().getValorAcumulador());
 	}
 	
+	/** Guarda en R(operando) el proximo valor en la cinta de entrada
+	 * @param instruccion
+	 */
 	public void read(Instruccion instruccion) throws Exception {
 		int valorDeEntrada= getInputUnit().getNextInputValue();
 		if(isDebugMode()) System.out.println("El proximo input de entrada vale: " + valorDeEntrada);
@@ -285,15 +327,18 @@ public class Alu{
 		}
 	}
 	
+	/** Escribe en la cinta de salida el valor del operando. No puede acceder al acumulador.
+	 * @param instruccion
+	 */
 	public void write(Instruccion instruccion) throws Exception {
 		switch(instruccion.getOperandos().get(0).getDireccionamiento()) {			// O->(=)Const; 1->( )Dir Directo; 2->(*)Dir Indirecto.
 		case 0:
-			if(instruccion.getOperandos().get(0).getValor()==0) {
-				throw new Exception("[ERROR INESPERADO]: ¡La instrucción "  + instruccion.getInstruccion() + " con ID:" + getIDPointer()+ ", está tratando de acceder al acumulador!");
-			}
-			else {
+			//if(instruccion.getOperandos().get(0).getValor()==0) {	//Esto esta mal y no hace falta, y de hecho puede dar problemas usando write =0. Arreglar si lo considero necesario (solo tengo que borrarlo).
+			//	throw new Exception("[ERROR INESPERADO]: ¡La instrucción "  + instruccion.getInstruccion() + " con ID:" + getIDPointer()+ ", está tratando de acceder al acumulador!");
+			//}
+			//else {
 				getOutputUnit().writeNextOutputValue(instruccion.getOperandos().get(0).getValor());
-			}
+			//}
 		case 1:
 			if(instruccion.getOperandos().get(0).getValor()==0) {
 				throw new Exception("[ERROR INESPERADO]: ¡La instrucción "  + instruccion.getInstruccion() + " con ID:" + getIDPointer()+ ", está tratando de acceder al acumulador!");
@@ -315,6 +360,9 @@ public class Alu{
 		}
 	}
 	
+	/**Edita el valor de ID según el valor id que tenga registrada la etiqueta que se le pasa por parámetro.
+	 * @param instruccion
+	 */
 	public void jump(Instruccion instruccion) throws Exception {
 		String etiqueta= instruccion.getOperandos().get(0).getSaltoEtiqueta();
 		setIDPointer(getProgramMemory().direccionEtiqueta(etiqueta)); 
@@ -324,22 +372,33 @@ public class Alu{
 		//if(isDebugMode()) System.out.println("El IDPointer ahora apunta a ID: " + getIDPointer());
 	}
 	
+	/**Llama a @jump si el acumulador vale 0
+	 * @param instruccion
+	 */
 	public void jzero(Instruccion instruccion) throws Exception {
 		if(getDataMemory().getValorAcumulador()==0) {
 			jump(instruccion);
 		}
 	}
-	
+	/**Llama a @jump si el acumulador es mayor que 0
+	 * @param instruccion
+	 */
 	public void jgtz(Instruccion instruccion) throws Exception {
 		if(getDataMemory().getValorAcumulador()>0) {
 			jump(instruccion);
 		}
 	}
 	
+	/**
+	 * Finaliza el programa.
+	 */
 	public void halt() {
 		setStop(true);
 	}
 
+	/**Comprueba que las instrucciones en la memoria del programa tengan un formato adecuado.
+	 * @throws Exception
+	 */
 	public void checkeoInstruciones() throws Exception{
 		for(Instruccion instruccion : getProgramMemory().getInstrucciones()) {
 			if(!getListaInstrucciones().tieneFormatoValido(instruccion.getInstruccion(), instruccion.getOperandos())) {

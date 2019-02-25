@@ -1,0 +1,27 @@
+# n^y
+
+#r1 tiene el valor al que vamos a multiplicar
+			read 1
+
+#r2 guarda el valor con el que vamos a multiplicar
+			load 1
+			store 2
+
+#r3 es el numero de veces que nos queda por multiplicar, empieza siendo y-1
+			read 3
+			load 3
+			sub =1
+			jzero fin
+			store 3
+
+otravez: 	load 1
+			MUL 2
+			store 1
+			load 3
+			sub =1
+			store 3
+			jgtz otravez
+
+#Mostramos por pantalla y acabamos
+fin:		write 1
+			halt

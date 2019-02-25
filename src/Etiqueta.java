@@ -1,4 +1,8 @@
 
+/**
+ * @author Yahlunna
+ * Guarda el nombre de una etiqueta y la id de la instruccion a la que apunta.
+ */
 public class Etiqueta {
 	
 	public String nombre;
@@ -6,7 +10,7 @@ public class Etiqueta {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public Etiqueta() {
+	public Etiqueta() {	//Debe evitar usarse.
 		setNombre(" ");
 		setPunteroID(0);
 	}

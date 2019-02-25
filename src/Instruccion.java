@@ -2,6 +2,10 @@
 import java.util.*;
 
 
+/** La clase instruccion guarda el nombre de la instruccion y todos sus parámetros.
+ * @author Yahlunna
+ *
+ */
 public class Instruccion {
 
 	public String instruccion;

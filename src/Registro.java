@@ -1,4 +1,9 @@
 
+/**Registro. Guarda el numero de registro RX que es, 
+ * asi como el valor int que contiene.
+ * @author Yahlunna
+ *
+ */
 public class Registro {
 
 	public int valor;

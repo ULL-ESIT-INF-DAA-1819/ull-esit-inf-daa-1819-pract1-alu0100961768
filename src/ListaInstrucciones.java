@@ -1,5 +1,9 @@
 import java.util.ArrayList;
 
+/**El único objetivo de esta clase es comprobar la correcta sintaxis de las instrucciones.
+ * @author Yahlunna
+ *
+ */
 public class ListaInstrucciones {
 
 	// O->(=)Const; 1->( )Dir Directo; 2->(*)Dir Indirecto.

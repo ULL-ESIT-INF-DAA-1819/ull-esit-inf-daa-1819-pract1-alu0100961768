@@ -2,6 +2,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 
+/**La clase output sobreescribe el fichero de salida cada
+ * vez que sea necesario a ficherodesalida + nuevoWrite.
+ * @author Yahlunna
+ */
 public class OutputUnit {
 
 	File outputFile;
