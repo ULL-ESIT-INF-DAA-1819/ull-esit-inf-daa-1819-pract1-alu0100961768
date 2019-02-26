@@ -13,10 +13,10 @@ public class Alu{
 	public ListaInstrucciones listaInstrucciones;		//Instrucciones que entiende el ALU
 	public InputUnit inputUnit;							//CInta de entrada
 	public OutputUnit outputUnit;						//Cinta de salida
-	public int IDPointer;								//Puntero del alu que indica la siguiente instrucción a ejecutar
+	public int IDPointer;								//Puntero del alu que indica la siguiente instrucciï¿½n a ejecutar
 	public boolean debugMode;							//Si es true, se muestran paso a paso el valor de los registros.
 	public int numberOfInstructions;					//Numero de instrucciones ejecutadas hasta el momento
-	public boolean stop;								//Cuando sea true, se parará la ejecución del programa.
+	public boolean stop;								//Cuando sea true, se pararï¿½ la ejecuciï¿½n del programa.
 	
 	/**Constructor de la Unidad Aritmetico Logica
 	 * @param programaTxt
@@ -94,8 +94,8 @@ public class Alu{
 	}
 	
 	
-	/**Ejecuta instruccion por instrucción el programa cargado en memoria hasta que se encuentra un halt
-	 * o una isntrucción nula (que trata como un halt).
+	/**Ejecuta instruccion por instrucciï¿½n el programa cargado en memoria hasta que se encuentra un halt
+	 * o una isntrucciï¿½n nula (que trata como un halt).
 	 * @throws Exception
 	 */
 	public void runProgram() throws Exception{		
@@ -103,24 +103,26 @@ public class Alu{
 		if(isDebugMode()) getProgramMemory().showProgram();
 		
 		while(!isStop()) {
-			if(isDebugMode()) System.out.println("Ejecutando la instrucción con ID: " + getIDPointer());
+			if(isDebugMode()) System.out.println("Ejecutando la instrucciï¿½n con ID: " + getIDPointer());
 			executeInstruction();
 			setIDPointer(getIDPointer()+1);
 			setNumberOfInstructions(getNumberOfInstructions()+1);
 			if(isDebugMode()) System.out.println("Se han ejecutado un total de " + Integer.toString(getNumberOfInstructions()) + " instrucciones.");
 			if(isDebugMode()) getDataMemory().showDataMemory();
+			if(isDebugMode()) 
+			System.in.read();
 		}
 		System.out.println("[Resultado final]: Se han ejecutado un total de " + Integer.toString(getNumberOfInstructions()) + " instrucciones.");
 	}
 	
-	/** Detecta la siguiente instrucción a ejecutar y llama a la función necesaria
+	/** Detecta la siguiente instrucciï¿½n a ejecutar y llama a la funciï¿½n necesaria
 	 *  para ejecutarla.
 	 * @throws Exception
 	 */
 	public void executeInstruction() throws Exception{
 		
 		Instruccion instruccionActual= getProgramMemory().getInstruccion(getIDPointer());
-		if(isDebugMode()) System.out.println("Ejecutando una instrucción " + instruccionActual);
+		if(isDebugMode()) System.out.println("Ejecutando una instrucciï¿½n " + instruccionActual);
 		
 		switch(instruccionActual.getInstruccion().toUpperCase()) {
 		case "LOAD":
@@ -161,13 +163,13 @@ public class Alu{
 			halt();
 			break;
 		default:
-			System.out.println("[ERROR INESPERADO]: No existe la orden " + instruccionActual.getInstruccion() + " con ID:"+ getIDPointer() +"). Se forzará la detencion del programa usando HALT...");
+			System.out.println("[ERROR INESPERADO]: No existe la orden " + instruccionActual.getInstruccion() + " con ID:"+ getIDPointer() +"). Se forzarï¿½ la detencion del programa usando HALT...");
 			halt();
 			break;
 		}
 	}
 	
-	/** Carga el operando que se le pasa por parámetro en el acumulador
+	/** Carga el operando que se le pasa por parï¿½metro en el acumulador
 	 * @param Direccionamiento= O->(=)Const; 1->( )Dir Directo; 2->(*)Dir Indirecto.
 	 */
 	public void load(Instruccion instruccion) throws Exception {
@@ -182,7 +184,7 @@ public class Alu{
 			getDataMemory().setValorAcumulador(getDataMemory().getValorOfRConDireccionamientoIndirecto(instruccion.getOperandos().get(0).getValor()));
 			break;
 		default:
-			throw new Exception("[ERROR INESPERADO]: no existe valor para la instrucción "  + instruccion.getInstruccion() + " con ID:" + getIDPointer()+ ", o su direccionamiento no es correcto");
+			throw new Exception("[ERROR INESPERADO]: no existe valor para la instrucciï¿½n "  + instruccion.getInstruccion() + " con ID:" + getIDPointer()+ ", o su direccionamiento no es correcto");
 		}
 	}
 	
@@ -202,7 +204,7 @@ public class Alu{
 			//if(isDebugMode()) System.out.println("R" + getDataMemory().getValorOfR(instruccion.getOperandos().get(0).getValor()) + " ahora vale " + getDataMemory().getValorOfRConDireccionamientoIndirecto(instruccion.getOperandos().get(0).getValor()));
 			break;
 		default:
-			throw new Exception("[ERROR INESPERADO]: Operando no valido para la instrucción "  + instruccion.getInstruccion() + " con ID:" + getIDPointer()+ ", o su direccionamiento no es correcto");
+			throw new Exception("[ERROR INESPERADO]: Operando no valido para la instrucciï¿½n "  + instruccion.getInstruccion() + " con ID:" + getIDPointer()+ ", o su direccionamiento no es correcto");
 		}
 	}
 	
@@ -223,7 +225,7 @@ public class Alu{
 				acumuladorAuxiliar+= getDataMemory().getValorOfRConDireccionamientoIndirecto(operando.getValor());
 				break;
 			default:
-				throw new Exception("[ERROR INESPERADO]: Operando no valido para la instrucción "  + instruccion.getInstruccion() + " con ID:" + getIDPointer()+ ", o su direccionamiento no es correcto");
+				throw new Exception("[ERROR INESPERADO]: Operando no valido para la instrucciï¿½n "  + instruccion.getInstruccion() + " con ID:" + getIDPointer()+ ", o su direccionamiento no es correcto");
 			}
 		}
 		getDataMemory().setValorAcumulador(acumuladorAuxiliar);
@@ -246,7 +248,7 @@ public class Alu{
 				acumuladorAuxiliar-= getDataMemory().getValorOfRConDireccionamientoIndirecto(operando.getValor());
 				break;
 			default:
-				throw new Exception("[ERROR INESPERADO]: Operando no valido para la instrucción "  + instruccion.getInstruccion() + " con ID:" + getIDPointer()+ ", o su direccionamiento no es correcto");
+				throw new Exception("[ERROR INESPERADO]: Operando no valido para la instrucciï¿½n "  + instruccion.getInstruccion() + " con ID:" + getIDPointer()+ ", o su direccionamiento no es correcto");
 			}
 		}
 		getDataMemory().setValorAcumulador(acumuladorAuxiliar);
@@ -269,7 +271,7 @@ public class Alu{
 				acumuladorAuxiliar*= getDataMemory().getValorOfRConDireccionamientoIndirecto(operando.getValor());
 				break;
 			default:
-				throw new Exception("[ERROR INESPERADO]: Operando no valido para la instrucción "  + instruccion.getInstruccion() + " con ID:" + getIDPointer()+ ", o su direccionamiento no es correcto");
+				throw new Exception("[ERROR INESPERADO]: Operando no valido para la instrucciï¿½n "  + instruccion.getInstruccion() + " con ID:" + getIDPointer()+ ", o su direccionamiento no es correcto");
 			}
 		}
 		getDataMemory().setValorAcumulador(acumuladorAuxiliar);
@@ -292,7 +294,7 @@ public class Alu{
 				acumuladorAuxiliar/= getDataMemory().getValorOfRConDireccionamientoIndirecto(operando.getValor());
 				break;
 			default:
-				throw new Exception("[ERROR INESPERADO]: Operando no valido para la instrucción "  + instruccion.getInstruccion() + " con ID:" + getIDPointer()+ ", o su direccionamiento no es correcto");
+				throw new Exception("[ERROR INESPERADO]: Operando no valido para la instrucciï¿½n "  + instruccion.getInstruccion() + " con ID:" + getIDPointer()+ ", o su direccionamiento no es correcto");
 			}
 		}
 		getDataMemory().setValorAcumulador(acumuladorAuxiliar);
@@ -308,7 +310,7 @@ public class Alu{
 		switch(instruccion.getOperandos().get(0).getDireccionamiento()) {			// O->(=)Const; 1->( )Dir Directo; 2->(*)Dir Indirecto.
 		case 1:
 			if(instruccion.getOperandos().get(0).getValor()==0) {
-				throw new Exception("[ERROR INESPERADO]: ¡La instrucción "  + instruccion.getInstruccion() + " con ID:" + getIDPointer()+ ", está tratando de acceder al acumulador!");
+				throw new Exception("[ERROR INESPERADO]: ï¿½La instrucciï¿½n "  + instruccion.getInstruccion() + " con ID:" + getIDPointer()+ ", estï¿½ tratando de acceder al acumulador!");
 			}
 			else {
 				getDataMemory().setValorOfR(instruccion.getOperandos().get(0).getValor(), valorDeEntrada);
@@ -316,14 +318,14 @@ public class Alu{
 			break;
 		case 2:
 			if(getDataMemory().getValorOfRConDireccionamientoIndirecto(instruccion.getOperandos().get(0).getValor())==0) {
-				throw new Exception("[ERROR INESPERADO]: ¡La instrucción "  + instruccion.getInstruccion() + " con ID:" + getIDPointer()+ ", está tratando de acceder al acumulador!");
+				throw new Exception("[ERROR INESPERADO]: ï¿½La instrucciï¿½n "  + instruccion.getInstruccion() + " con ID:" + getIDPointer()+ ", estï¿½ tratando de acceder al acumulador!");
 			}
 			else {
 				getDataMemory().setValorOfRConDireccionamientoIndirecto(instruccion.getOperandos().get(0).getValor(), valorDeEntrada);
 			}
 			break;
 		default:
-			throw new Exception("[ERROR INESPERADO]: ¡La instrucción "  + instruccion.getInstruccion() + " con ID:" + getIDPointer()+ ", tiene un formato de operando o direccionamiento no válido!");
+			throw new Exception("[ERROR INESPERADO]: ï¿½La instrucciï¿½n "  + instruccion.getInstruccion() + " con ID:" + getIDPointer()+ ", tiene un formato de operando o direccionamiento no vï¿½lido!");
 		}
 	}
 	
@@ -334,14 +336,14 @@ public class Alu{
 		switch(instruccion.getOperandos().get(0).getDireccionamiento()) {			// O->(=)Const; 1->( )Dir Directo; 2->(*)Dir Indirecto.
 		case 0:
 			//if(instruccion.getOperandos().get(0).getValor()==0) {	//Esto esta mal y no hace falta, y de hecho puede dar problemas usando write =0. Arreglar si lo considero necesario (solo tengo que borrarlo).
-			//	throw new Exception("[ERROR INESPERADO]: ¡La instrucción "  + instruccion.getInstruccion() + " con ID:" + getIDPointer()+ ", está tratando de acceder al acumulador!");
+			//	throw new Exception("[ERROR INESPERADO]: ï¿½La instrucciï¿½n "  + instruccion.getInstruccion() + " con ID:" + getIDPointer()+ ", estï¿½ tratando de acceder al acumulador!");
 			//}
 			//else {
 				getOutputUnit().writeNextOutputValue(instruccion.getOperandos().get(0).getValor());
 			//}
 		case 1:
 			if(instruccion.getOperandos().get(0).getValor()==0) {
-				throw new Exception("[ERROR INESPERADO]: ¡La instrucción "  + instruccion.getInstruccion() + " con ID:" + getIDPointer()+ ", está tratando de acceder al acumulador!");
+				throw new Exception("[ERROR INESPERADO]: ï¿½La instrucciï¿½n "  + instruccion.getInstruccion() + " con ID:" + getIDPointer()+ ", estï¿½ tratando de acceder al acumulador!");
 			}
 			else {
 				getOutputUnit().writeNextOutputValue(getDataMemory().getValorOfR(instruccion.getOperandos().get(0).getValor()));
@@ -349,25 +351,25 @@ public class Alu{
 			break;
 		case 2:
 			if(getDataMemory().getValorOfRConDireccionamientoIndirecto(instruccion.getOperandos().get(0).getValor())==0) {
-				throw new Exception("[ERROR INESPERADO]: ¡La instrucción "  + instruccion.getInstruccion() + " con ID:" + getIDPointer()+ ", está tratando de acceder al acumulador!");
+				throw new Exception("[ERROR INESPERADO]: ï¿½La instrucciï¿½n "  + instruccion.getInstruccion() + " con ID:" + getIDPointer()+ ", estï¿½ tratando de acceder al acumulador!");
 			}
 			else {
 				getOutputUnit().writeNextOutputValue(getDataMemory().getValorOfRConDireccionamientoIndirecto(instruccion.getOperandos().get(0).getValor()));
 			}
 			break;
 		default:
-			throw new Exception("[ERROR INESPERADO]: ¡La instrucción "  + instruccion.getInstruccion() + " con ID:" + getIDPointer()+ ", tiene un formato de operando o direccionamiento no válido!");
+			throw new Exception("[ERROR INESPERADO]: ï¿½La instrucciï¿½n "  + instruccion.getInstruccion() + " con ID:" + getIDPointer()+ ", tiene un formato de operando o direccionamiento no vï¿½lido!");
 		}
 	}
 	
-	/**Edita el valor de ID según el valor id que tenga registrada la etiqueta que se le pasa por parámetro.
+	/**Edita el valor de ID segï¿½n el valor id que tenga registrada la etiqueta que se le pasa por parï¿½metro.
 	 * @param instruccion
 	 */
 	public void jump(Instruccion instruccion) throws Exception {
 		String etiqueta= instruccion.getOperandos().get(0).getSaltoEtiqueta();
 		setIDPointer(getProgramMemory().direccionEtiqueta(etiqueta)); 
 		if(getIDPointer()==-2) {
-			throw new Exception("[ERROR INESPERADO]: ¡La instrucción "  + instruccion.getInstruccion() + " con ID:" + getIDPointer()+ ", no puede encontrar una etiqueta '" + etiqueta +"' a la que saltar!");
+			throw new Exception("[ERROR INESPERADO]: ï¿½La instrucciï¿½n "  + instruccion.getInstruccion() + " con ID:" + getIDPointer()+ ", no puede encontrar una etiqueta '" + etiqueta +"' a la que saltar!");
 		}
 		//if(isDebugMode()) System.out.println("El IDPointer ahora apunta a ID: " + getIDPointer());
 	}
@@ -402,7 +404,7 @@ public class Alu{
 	public void checkeoInstruciones() throws Exception{
 		for(Instruccion instruccion : getProgramMemory().getInstrucciones()) {
 			if(!getListaInstrucciones().tieneFormatoValido(instruccion.getInstruccion(), instruccion.getOperandos())) {
-				System.out.print("Este mensaje es de prueba y nunca debería verse. Si lo lees por terminal, es que la cosa está jodida");
+				System.out.print("Este mensaje es de prueba y nunca deberï¿½a verse. Si lo lees por terminal, es que la cosa estï¿½ jodida");
 			}		
 		}		
 	}

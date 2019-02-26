@@ -1,0 +1,28 @@
+			read 1
+			load 1
+			store 1
+			store 2
+# R1 contiene el valor final, R2 el valor que multiplicamos
+			read 3
+# R3 contiene el valor a alcanzar
+# Si r1 > r3, el numero de veces que hemos hecho el bucle será el resutado del logaritmo 
+# R4 contiene el resultado.
+# En R5 compruebo que aactual >b. Si es asi, se repuite
+
+
+etiq:		load 1
+			mult 2
+			store 1
+			load 4
+			add =1
+			store 4
+			load 3
+			sub 1
+			jgtz etiq
+			load 4
+			add =1
+			store 4
+
+fin:		write 4
+			halt	
+			
